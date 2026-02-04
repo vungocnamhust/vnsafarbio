@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIETNAM SAFAR - Professional Travel & MICE</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-green: #1B4332;
+            --accent-gold: #C5A059;
+            --bg-dark: #0F261C;
+        }
+
+        body {
+            font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(27, 67, 50, 0.9) 0%, rgba(15, 38, 28, 0.98) 100%);
+            z-index: -1;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px border-white/10;
+        }
+
+        .btn-link:active {
+            transform: scale(0.98);
+        }
+
+        #toast {
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 10px;
+        }
+
+        /* Video Glow Effect */
+        .video-container {
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(27, 67, 50, 0.3);
+        }
+
+        /* Header Styles */
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            width: 100%;
+            padding: 16px 20px;
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .header-logo {
+                width: 56px;
+                height: 56px;
+            }
+
+            .header-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Hero Video Section */
+        .hero-video-section {
+            position: relative;
+            width: 100%;
+            height: 56.25vw;
+            /* 16:9 aspect ratio */
+            max-height: 70vh;
+            min-height: 300px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-video-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-video-wrapper iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            /* 16:9 aspect ratio */
+            min-height: 100%;
+            min-width: 177.78vh;
+            /* 16:9 aspect ratio */
+            transform: translate(-50%, -50%);
+            border: none;
+        }
+
+        .hero-video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(15, 38, 28, 0.4) 0%,
+                    rgba(15, 38, 28, 0.1) 50%,
+                    rgba(15, 38, 28, 0.7) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Video Loading Placeholder */
+        .video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary-green) 100%);
+            z-index: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .video-placeholder.loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center select-none">
+
+    <div class="video-overlay"></div>
+
+    <!-- Header Row: Logo + Title + Language Switcher -->
+    <header class="header-row z-10">
+        <img src="vnsafar-logo.png" alt="VIETNAM SAFAR Logo" class="header-logo shadow-lg" loading="eager"
+            decoding="async">
+        <h1 id="compName" class="header-title">VIETNAM SAFAR</h1>
+        <button id="langToggle"
+            class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 transition-all text-sm font-medium backdrop-blur-md">
+            <i data-lucide="globe" class="w-4 h-4"></i>
+            <span id="langLabel">English</span>
+        </button>
+    </header>
+
+    <!-- Hero Background Video (Full Width - YouTube Embed) -->
+    <section class="hero-video-section z-10">
+        <!-- Loading Placeholder -->
+        <div class="video-placeholder" id="videoPlaceholder">
+            <div class="loading-spinner"></div>
+        </div>
+        <div class="hero-video-wrapper">
+            <!-- Iframe loaded via JavaScript for non-blocking behavior -->
+            <iframe id="heroVideo"
+                data-src="https://www.youtube.com/embed/BZIyK4j9yWc?si=n8FVWbVr-unM30jh&autoplay=1&mute=1&loop=1&playlist=BZIyK4j9yWc&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                title="YouTube video player" frameborder="0" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+        <div class="hero-video-overlay"></div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-2xl z-10 flex flex-col items-center px-4 mt-8">
+
+        <!-- Narrative Section -->
+        <div class="content-card rounded-3xl p-6 md:p-8 mb-8 text-center md:text-right w-full">
+            <p id="narrative1" class="text-white/90 leading-relaxed mb-6 text-sm md:text-base">
+                <!-- Text injected by JS -->
+            </p>
+            <p id="narrative2" class="text-white/90 leading-relaxed text-sm md:text-base">
+                <!-- Text injected by JS -->
+            </p>
+        </div>
+
+        <!-- Social Links Section -->
+        <div id="linksContainer" class="w-full space-y-4 mb-12">
+            <!-- Social buttons injected by JS -->
+        </div>
+
+        <!-- What We Offer Section -->
+        <div class="w-full mb-10">
+            <h2 id="offerTitle" class="text-xl font-bold mb-6 flex items-center gap-3">
+                <i data-lucide="sparkles" class="text-[#C5A059]"></i>
+                <span>ماذا نقدم</span>
+            </h2>
+            <div id="offerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Offers injected by JS -->
+            </div>
+            <p id="offerFooter" class="mt-6 text-center text-sm text-white/60 italic">
+                <!-- Text injected by JS -->
+            </p>
+        </div>
+
+
+        <!-- Closing Statement -->
+        <div class="content-card rounded-3xl p-8 mb-12 text-center border-t-2 border-[#C5A059]/30 w-full">
+            <p id="closingStatement" class="text-lg md:text-xl font-medium leading-relaxed italic text-[#C5A059]">
+                <!-- Text injected by JS -->
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="pb-12 flex flex-col items-center gap-4 text-center">
+            <button id="shareBtn"
+                class="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+                <span id="shareLabel">مشاركة الملف الشخصي</span>
+            </button>
+            <div class="h-px w-20 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+            <p class="text-[10px] text-white/30 uppercase tracking-[0.2em]">
+                &copy; 2024 VIETNAM SAFAR | License 48-243/2023 TCDL-GP LHQT
+            </p>
+        </div>
+    </div>
+
+    <!-- Custom Toast -->
+    <div id="toast"
+        class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-white text-black text-sm font-bold opacity-0 shadow-2xl z-50">
+        تم نسخ الرابط!
+    </div>
+
+    <script>
+        const content = {
+            en: {
+                name: "VIETNAM SAFAR",
+                narrative1: "VIETNAM SAFAR is dedicated to providing seamless and exceptional travel experiences across Vietnam. With our International Tour Operator License (48-243/2023 TCDL-GP LHQT) issued by the Vietnam National Administration of Tourism, we offer a range of premium, customized tours and travel services.",
+                narrative2: "From individual travelers to groups and specialized markets, we ensure every journey is tailored for unforgettable moments. Additionally, we specialize in organizing MICE (Meetings, Incentives, Conferences, and Exhibitions) events, delivering professional and personalized services for corporate and business clients.",
+                offerTitle: "What We Offer",
+                offers: [
+                    { icon: 'file-text', text: 'Visa Services' },
+                    { icon: 'map', text: 'Customized Tours to Vietnam' },
+                    { icon: 'briefcase', text: 'Organizing MICE & Corporate Events' },
+                    { icon: 'building', text: 'Hotel Bookings' },
+                    { icon: 'navigation', text: 'Travel Arrangement' }
+                ],
+                offerFooter: "We will customize your tours and travel packages based on your requests and preferences.",
+                closing: "Join VIETNAM SAFAR on a remarkable voyage that transcends mere maps and embraces a state of being—an extraordinary realm where unforgettable memories and life-changing moments await.",
+                share: "Share Profile",
+                copied: "Link Copied!"
+            },
+            ar: {
+                name: "فيتنام سفر",
+                narrative1: "تكرس فيتنام سفر جهودها لتوفير تجارب سفر سلسة واستثنائية في جميع أنحاء فيتنام. من خلال رخصة منظم الرحلات الدولية الخاصة بنا (48-243/2023 TCDL-GP LHQT) الصادرة عن الإدارة الوطنية للسياحة في فيتنام، نقدم مجموعة من الجولات والخدمات السياحية المتميزة والمخصصة.",
+                narrative2: "من المسافرين الأفراد إلى المجموعات والأسواق المتخصصة، نضمن تصميم كل رحلة للحظات لا تُنسى. بالإضافة إلى ذلك، نحن متخصصون في تنظيم فعاليات MICE (الاجتماعات، الحوافز، المؤتمرات، والمعارض)، وتقديم خدمات احترافية وشخصية لعملاء الشركات والأعمال.",
+                offerTitle: "ماذا نقدم",
+                offers: [
+                    { icon: 'file-text', text: 'خدمات التأشيرة' },
+                    { icon: 'map', text: 'جولات مخصصة إلى فيتنام' },
+                    { icon: 'briefcase', text: 'تنظيم فعاليات MICE والشركات' },
+                    { icon: 'building', text: 'حجوزات الفنادق' },
+                    { icon: 'navigation', text: 'ترتيبات السفر' }
+                ],
+                offerFooter: "سنقوم بتخصيص جولاتكم وباقات سفركم بناءً على طلباتكم وتفضيلاتكم.",
+                closing: "انضم إلى فيتنام سفر في رحلة رائعة تتجاوز مجرد الخرائط وتتبنى حالة من الوجود - عالم استثنائي حيث تنتظرك ذكريات لا تُنسى ولحظات تغير حياتك.",
+                share: "مشاركة الملف الشخصي",
+                copied: "تم نسخ الرابط!"
+            }
+        };
+
+        const socialLinks = [
+            { id: 'website', icon: 'globe', url: 'https://vietnamsafar.vn', title: { en: 'Website', ar: 'الموقع الإلكتروني' } },
+            { id: 'youtube', icon: 'youtube', url: 'https://youtube.com/@vietnamsafar', title: { en: 'YouTube', ar: 'يوتيوب' } },
+            { id: 'whatsapp', icon: 'message-circle', url: 'https://wa.me/966000000000', title: { en: 'WhatsApp', ar: 'واتساب' } },
+            { id: 'instagram', icon: 'instagram', url: 'https://www.instagram.com/vietnam_safar/', title: { en: 'Instagram', ar: 'إنستغرام' } },
+            { id: 'tiktok', icon: 'music', url: 'https://tiktok.com/@vietnamsafar', title: { en: 'TikTok', ar: 'تيك توك' } },
+            { id: 'threads', icon: 'at-sign', url: 'https://threads.net/@vietnamsafar', title: { en: 'Threads', ar: 'ثريدز' } }
+        ];
+
+        let currentLang = 'ar';
+
+        function updateUI() {
+            const isRtl = currentLang === 'ar';
+            const data = content[currentLang];
+            document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+
+            document.getElementById('langLabel').textContent = currentLang === 'ar' ? 'English' : 'العربية';
+            // Keep title as "VIETNAM SAFAR" regardless of language
+            document.getElementById('compName').textContent = 'VIETNAM SAFAR';
+
+            document.getElementById('narrative1').textContent = data.narrative1;
+            document.getElementById('narrative2').textContent = data.narrative2;
+            document.getElementById('offerTitle').querySelector('span').textContent = data.offerTitle;
+            document.getElementById('offerFooter').textContent = data.offerFooter;
+            document.getElementById('closingStatement').textContent = data.closing;
+            document.getElementById('shareLabel').textContent = data.share;
+            document.getElementById('toast').textContent = data.copied;
+
+            // Update Offer Grid
+            const grid = document.getElementById('offerGrid');
+            grid.innerHTML = '';
+            data.offers.forEach(off => {
+                const div = document.createElement('div');
+                div.className = "content-card p-4 rounded-2xl flex items-center gap-4 border border-white/5 shadow-sm hover:border-[#C5A059]/30 transition-all";
+                div.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center">
+                        <i data-lucide="${off.icon}" class="w-5 h-5"></i>
+                    </div>
+                    <span class="font-medium text-sm">${off.text}</span>
+                `;
+                grid.appendChild(div);
+            });
+
+            // Update Social Links
+            const linksContainer = document.getElementById('linksContainer');
+            linksContainer.innerHTML = '';
+            socialLinks.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = "_blank";
+                a.className = "btn-link group flex items-center justify-between w-full p-4 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-[1.02] border-l-4 border-l-[#C5A059]";
+                a.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white">
+                            <i data-lucide="${link.icon}" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-semibold text-lg text-white">${link.title[currentLang]}</span>
+                    </div>
+                    <i data-lucide="chevron-left" class="w-4 h-4 text-white/20 group-hover:text-white transition-colors ${isRtl ? '' : 'rotate-180'}"></i>
+                `;
+                linksContainer.appendChild(a);
+            });
+
+            lucide.createIcons();
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            updateUI();
+        });
+
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({ title: 'VIETNAM SAFAR', url: window.location.href });
+            } else {
+                const el = document.createElement('input'); el.value = window.location.href;
+                document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+                const toast = document.getElementById('toast'); toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 2000);
+            }
+        });
+
+        // Initialize UI immediately when DOM is ready (don't wait for images/video)
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+
+            // Load YouTube video after main content is rendered (non-blocking)
+            requestAnimationFrame(() => {
+                const heroVideo = document.getElementById('heroVideo');
+                const placeholder = document.getElementById('videoPlaceholder');
+
+                if (heroVideo && heroVideo.dataset.src) {
+                    heroVideo.src = heroVideo.dataset.src;
+
+                    // Hide placeholder when iframe loads
+                    heroVideo.addEventListener('load', () => {
+                        if (placeholder) {
+                            placeholder.classList.add('loaded');
+                        }
+                    });
+
+                    // Fallback: hide placeholder after 3 seconds even if load event doesn't fire
+                    setTimeout(() => {
+                        if (placeholder) {
+                            placeholder.classList.add('loaded');
+                        }
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
