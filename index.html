@@ -16,6 +16,7 @@
     <style>
         :root {
             --primary-green: #1B4332;
+            --light-green: #65836c;
             --accent-gold: #FFCC05;
             --accent-gold-light: #FFD633;
             --bg-dark: #0F261C;
@@ -77,22 +78,9 @@
             }
         }
 
-        /* ===== GEOMETRIC PATTERN OVERLAY ===== */
+        /* ===== GEOMETRIC PATTERN OVERLAY (DISABLED) ===== */
         .geometric-pattern {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.03;
-            background-image:
-                linear-gradient(30deg, var(--accent-gold) 12%, transparent 12.5%, transparent 87%, var(--accent-gold) 87.5%, var(--accent-gold)),
-                linear-gradient(150deg, var(--accent-gold) 12%, transparent 12.5%, transparent 87%, var(--accent-gold) 87.5%, var(--accent-gold)),
-                linear-gradient(30deg, var(--accent-gold) 12%, transparent 12.5%, transparent 87%, var(--accent-gold) 87.5%, var(--accent-gold)),
-                linear-gradient(150deg, var(--accent-gold) 12%, transparent 12.5%, transparent 87%, var(--accent-gold) 87.5%, var(--accent-gold)),
-                linear-gradient(60deg, rgba(197, 160, 89, 0.5) 25%, transparent 25.5%, transparent 75%, rgba(197, 160, 89, 0.5) 75%, rgba(197, 160, 89, 0.5)),
-                linear-gradient(60deg, rgba(197, 160, 89, 0.5) 25%, transparent 25.5%, transparent 75%, rgba(197, 160, 89, 0.5) 75%, rgba(197, 160, 89, 0.5));
-            background-size: 80px 140px;
-            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            display: none;
         }
 
         /* ===== ANIMATED GRADIENT WAVES ===== */
@@ -366,7 +354,48 @@
 
         .btn-link:hover .icon-wrapper {
             transform: scale(1.1) rotate(-5deg);
-            background: rgba(197, 160, 89, 0.2) !important;
+            background: rgba(101, 131, 108, 0.3) !important;
+        }
+
+        /* ===== ALTERNATING SOCIAL LINK STYLES ===== */
+        .social-link-odd {
+            background: var(--light-green) !important;
+            border-color: var(--light-green) !important;
+        }
+
+        .social-link-odd .icon-wrapper {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+        }
+
+        .social-link-odd span {
+            color: white !important;
+        }
+
+        .social-link-odd:hover {
+            background: var(--primary-green) !important;
+        }
+
+        .social-link-even {
+            background: white !important;
+            border-color: white !important;
+        }
+
+        .social-link-even .icon-wrapper {
+            background: var(--light-green) !important;
+            color: white !important;
+        }
+
+        .social-link-even span {
+            color: var(--primary-green) !important;
+        }
+
+        .social-link-even i[data-lucide="chevron-left"] {
+            color: var(--primary-green) !important;
+        }
+
+        .social-link-even:hover {
+            background: #f0f0f0 !important;
         }
 
         /* ===== OFFER CARD ANIMATIONS ===== */
@@ -409,6 +438,17 @@
 
         .offer-icon {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== ALTERNATING OFFER ICON STYLES ===== */
+        .offer-icon-odd {
+            background: var(--light-green) !important;
+            color: white !important;
+        }
+
+        .offer-icon-even {
+            background: white !important;
+            color: var(--light-green) !important;
         }
 
         /* ===== FLOATING DECORATIVE SHAPES ===== */
@@ -551,8 +591,8 @@
         .header-logo {
             width: 48px;
             height: 48px;
-            object-fit: contain;
-            border-radius: 12px;
+            object-fit: cover;
+            border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: rgba(255, 255, 255, 0.05);
             padding: 4px;
@@ -665,39 +705,17 @@
             z-index: 1;
         }
 
-        /* ===== VIDEO FRAME DECORATION ===== */
+        /* ===== VIDEO FRAME DECORATION (DISABLED) ===== */
         .hero-video-section::before,
         .hero-video-section::after {
-            content: '';
-            position: absolute;
-            z-index: 2;
-            pointer-events: none;
+            display: none;
         }
 
-        .hero-video-section::before {
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    var(--accent-gold) 20%,
-                    var(--accent-gold) 80%,
-                    transparent 100%);
-            opacity: 0.5;
-        }
-
-        .hero-video-section::after {
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    var(--accent-gold) 20%,
-                    var(--accent-gold) 80%,
-                    transparent 100%);
-            opacity: 0.5;
+        /* Desktop: Increase video height */
+        @media (min-width: 768px) {
+            .hero-video-section {
+                max-height: 85vh;
+            }
         }
 
         /* ===== VIDEO LOADING PLACEHOLDER ===== */
@@ -983,7 +1001,7 @@
         <div class="w-full mb-10 animate-in animate-in-delay-4">
             <h2 id="offerTitle" class="text-xl font-bold mb-6 flex items-center gap-3">
                 <i data-lucide="sparkles" class="text-[#C5A059] glow-pulse"></i>
-                <span>ماذا نقدم</span>
+                <span class="animated-title">ماذا نقدم</span>
             </h2>
             <div id="offerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Offers injected by JS -->
@@ -1035,7 +1053,7 @@
                 offerTitle: "What We Offer",
                 offers: [
                     { icon: 'file-text', text: 'Visa Services' },
-                    { icon: 'map', text: 'Customized Tours to Vietnam' },
+                    { icon: 'map', text: 'Customized Muslim Tours to Vietnam' },
                     { icon: 'briefcase', text: 'Organizing MICE & Corporate Events' },
                     { icon: 'building', text: 'Hotel Bookings' },
                     { icon: 'navigation', text: 'Travel Arrangement' }
@@ -1065,12 +1083,12 @@
         };
 
         const socialLinks = [
-            { id: 'website', icon: 'globe', url: 'https://vietnamsafar.vn', title: { en: 'Website', ar: 'الموقع الإلكتروني' } },
-            { id: 'youtube', icon: 'youtube', url: 'https://youtube.com/@vietnamsafar', title: { en: 'YouTube', ar: 'يوتيوب' } },
-            { id: 'whatsapp', icon: 'message-circle', url: 'https://wa.me/966000000000', title: { en: 'WhatsApp', ar: 'واتساب' } },
-            { id: 'instagram', icon: 'instagram', url: 'https://www.instagram.com/vietnam_safar/', title: { en: 'Instagram', ar: 'إنستغرام' } },
-            { id: 'tiktok', icon: 'music', url: 'https://www.tiktok.com/@vietnam.safar', title: { en: 'TikTok', ar: 'تيك توك' } },
-            { id: 'threads', icon: 'at-sign', url: 'https://www.threads.com/@vietnam_safar?igshid=NTc4MTIwNjQ2YQ==', title: { en: 'Threads', ar: 'ثريدز' } }
+            { id: 'website', icon: 'globe', url: 'https://vietnamsafar.vn', title: { en: 'Visit Our Website', ar: 'زيارة موقعنا' } },
+            { id: 'youtube', icon: 'youtube', url: 'https://youtube.com/@vietnamsafar', title: { en: 'Watch on YouTube', ar: 'شاهدنا على يوتيوب' } },
+            { id: 'whatsapp', icon: 'message-circle', url: 'https://wa.me/966000000000', title: { en: 'Contact Ms Trang via WhatsApp', ar: 'تواصل مع السيدة ترانغ عبر واتساب' } },
+            { id: 'instagram', icon: 'instagram', url: 'https://www.instagram.com/vietnam_safar/', title: { en: 'Follow on Instagram', ar: 'تابعنا على إنستغرام' } },
+            { id: 'tiktok', icon: 'music', url: 'https://www.tiktok.com/@vietnam.safar', title: { en: 'Follow on TikTok', ar: 'تابعنا على تيك توك' } },
+            { id: 'threads', icon: 'at-sign', url: 'https://www.threads.com/@vietnam_safar?igshid=NTc4MTIwNjQ2YQ==', title: { en: 'Follow on Threads', ar: 'تابعنا على ثريدز' } }
         ];
 
         let currentLang = 'ar';
@@ -1101,8 +1119,11 @@
                 div.style.animationDelay = `${0.4 + (index * 0.1)}s`;
                 div.style.opacity = '0';
                 div.style.animation = `fadeInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
+                // Alternating icon styles: odd (0,2,4) = green bg, even (1,3,5) = white bg
+                const isOdd = index % 2 === 0;
+                const iconClass = isOdd ? 'offer-icon-odd' : 'offer-icon-even';
                 div.innerHTML = `
-                    <div class="offer-icon w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center">
+                    <div class="offer-icon w-10 h-10 rounded-xl flex items-center justify-center ${iconClass}">
                         <i data-lucide="${off.icon}" class="w-5 h-5"></i>
                     </div>
                     <span class="font-medium text-sm relative z-10">${off.text}</span>
@@ -1118,18 +1139,21 @@
                 a.href = link.url;
                 a.target = "_blank";
                 a.rel = "noopener noreferrer";
-                a.className = "btn-link group flex items-center justify-between w-full p-4 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-[1.02] border-l-4 border-l-[#C5A059]";
+                // Alternating styles: odd (0,2,4) = green bg, even (1,3,5) = white bg
+                const isOdd = index % 2 === 0;
+                const alternatingClass = isOdd ? 'social-link-odd' : 'social-link-even';
+                a.className = `btn-link group flex items-center justify-between w-full p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] ${alternatingClass}`;
                 a.style.animationDelay = `${0.3 + (index * 0.08)}s`;
                 a.style.opacity = '0';
                 a.style.animation = `fadeInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
                 a.innerHTML = `
                     <div class="flex items-center gap-4">
-                        <div class="icon-wrapper w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white">
+                        <div class="icon-wrapper w-10 h-10 flex items-center justify-center rounded-xl">
                             <i data-lucide="${link.icon}" class="w-5 h-5"></i>
                         </div>
-                        <span class="font-semibold text-lg text-white">${link.title[currentLang]}</span>
+                        <span class="font-semibold text-lg">${link.title[currentLang]}</span>
                     </div>
-                    <i data-lucide="chevron-left" class="w-4 h-4 text-white/20 group-hover:text-[#C5A059] transition-colors ${isRtl ? '' : 'rotate-180'}"></i>
+                    <i data-lucide="chevron-left" class="w-4 h-4 transition-colors ${isRtl ? '' : 'rotate-180'}"></i>
                 `;
                 linksContainer.appendChild(a);
             });
