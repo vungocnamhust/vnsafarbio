@@ -1194,7 +1194,7 @@
                     { icon: 'navigation', text: 'Travel Arrangement' }
                 ],
                 offerFooter: "We will customize your tours and travel packages based on your requests and preferences.",
-                closing: "Join VIETNAM SAFAR on a remarkable voyage that transcends mere maps and embraces a state of being—an extraordinary realm where unforgettable memories and life-changing moments await.",
+                closing: "Speak with our experts with deep expertise in Arab culture for reliable, culturally aligned travel and business services in Vietnam.",
                 share: "Share Profile",
                 copied: "Link Copied!"
             },
@@ -1211,19 +1211,26 @@
                     { icon: 'navigation', text: 'ترتيبات السفر' }
                 ],
                 offerFooter: "سنقوم بتخصيص جولاتكم وباقات سفركم بناءً على طلباتكم وتفضيلاتكم.",
-                closing: "انضم إلى فيتنام سفر في رحلة رائعة تتجاوز مجرد الخرائط وتتبنى حالة من الوجود - عالم استثنائي حيث تنتظرك ذكريات لا تُنسى ولحظات تغير حياتك.",
+                closing: "تحدث مع خبرائنا ذوي الخبرة العميقة في الثقافة العربية للحصول على خدمات سفر وأعمال موثوقة ومتوافقة ثقافياً في فيتنام.",
                 share: "مشاركة الملف الشخصي",
                 copied: "تم نسخ الرابط!"
             }
         };
 
+        // Custom SVG icons for brands not available in Lucide
+        const customIcons = {
+            whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+            tiktok: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>`,
+            threads: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.812-.674 1.928-1.077 3.229-1.165.93-.063 1.848.025 2.741.258.214-.705.311-1.5.287-2.373l2.036-.061c.046 1.399-.168 2.636-.635 3.71.538.327 1.017.716 1.429 1.165.992 1.083 1.555 2.478 1.622 4.028.079 1.834-.478 3.665-1.57 5.163C19.049 22.418 16.142 24 12.186 24zm1.351-8.849c-.715.049-1.303.244-1.7.564-.396.32-.576.722-.55 1.194.024.435.238.808.62 1.076.504.355 1.22.51 2.013.432.972-.095 1.714-.453 2.207-1.065.37-.46.62-1.063.756-1.808-.999-.282-2.114-.444-3.346-.393z"/></svg>`
+        };
+
         const socialLinks = [
             { id: 'website', icon: 'globe', url: 'https://vietnamsafar.vn', title: { en: 'Visit Our Website', ar: 'زيارة موقعنا' } },
             { id: 'youtube', icon: 'youtube', url: 'https://youtube.com/@vietnamsafar', title: { en: 'Watch on YouTube', ar: 'شاهدنا على يوتيوب' } },
-            { id: 'whatsapp', icon: 'message-circle', url: 'https://wa.me/966000000000', title: { en: 'Contact Ms Trang via WhatsApp', ar: 'تواصل مع السيدة ترانغ عبر واتساب' } },
+            { id: 'whatsapp', icon: 'whatsapp', customIcon: true, url: 'https://wa.me/911538738', title: { en: 'Contact Ms. Safa via WhatsApp', ar: 'تواصل بخبيرتنا: صفاء' } },
             { id: 'instagram', icon: 'instagram', url: 'https://www.instagram.com/vietnam_safar/', title: { en: 'Follow on Instagram', ar: 'تابعنا على إنستغرام' } },
-            { id: 'tiktok', icon: 'music', url: 'https://www.tiktok.com/@vietnam.safar', title: { en: 'Follow on TikTok', ar: 'تابعنا على تيك توك' } },
-            { id: 'threads', icon: 'at-sign', url: 'https://www.threads.com/@vietnam_safar?igshid=NTc4MTIwNjQ2YQ==', title: { en: 'Follow on Threads', ar: 'تابعنا على ثريدز' } }
+            { id: 'tiktok', icon: 'tiktok', customIcon: true, url: 'https://www.tiktok.com/@vietnam.safarfeedback', title: { en: 'Follow on TikTok', ar: 'تابعنا على تيك توك' } },
+            { id: 'threads', icon: 'threads', customIcon: true, url: 'https://www.threads.com/@vietnam_safar?igshid=NTc4MTIwNjQ2YQ==', title: { en: 'Follow on Threads', ar: 'تابعنا على ثريدز' } }
         ];
 
         let currentLang = 'ar';
@@ -1281,10 +1288,16 @@
                 a.style.animationDelay = `${0.3 + (index * 0.08)}s`;
                 a.style.opacity = '0';
                 a.style.animation = `fadeInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
+
+                // Use custom SVG icon or Lucide icon
+                const iconHtml = link.customIcon && customIcons[link.icon]
+                    ? customIcons[link.icon]
+                    : `<i data-lucide="${link.icon}" class="w-5 h-5"></i>`;
+
                 a.innerHTML = `
                     <div class="flex items-center gap-4">
                         <div class="icon-wrapper w-10 h-10 flex items-center justify-center rounded-xl">
-                            <i data-lucide="${link.icon}" class="w-5 h-5"></i>
+                            ${iconHtml}
                         </div>
                         <span class="font-semibold text-lg">${link.title[currentLang]}</span>
                     </div>
