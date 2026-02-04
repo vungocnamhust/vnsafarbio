@@ -216,13 +216,8 @@
             <div class="loading-spinner"></div>
         </div>
         <div class="hero-video-wrapper">
-            <!-- Iframe loaded via JavaScript for non-blocking behavior -->
-            <iframe id="heroVideo"
-                data-src="https://www.youtube.com/embed/BZIyK4j9yWc?si=n8FVWbVr-unM30jh&autoplay=1&mute=1&loop=1&playlist=BZIyK4j9yWc&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-                title="YouTube video player" frameborder="0" loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-            </iframe>
+            <!-- YouTube Player will be inserted here via API -->
+            <div id="heroVideo"></div>
         </div>
         <div class="hero-video-overlay"></div>
     </section>
@@ -410,31 +405,73 @@
         // Initialize UI immediately when DOM is ready (don't wait for images/video)
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
+        });
 
-            // Load YouTube video after main content is rendered (non-blocking)
-            requestAnimationFrame(() => {
-                const heroVideo = document.getElementById('heroVideo');
-                const placeholder = document.getElementById('videoPlaceholder');
+        // YouTube IFrame Player API for better mobile autoplay support
+        let player;
 
-                if (heroVideo && heroVideo.dataset.src) {
-                    heroVideo.src = heroVideo.dataset.src;
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-                    // Hide placeholder when iframe loads
-                    heroVideo.addEventListener('load', () => {
+        // Called by YouTube API when ready
+        function onYouTubeIframeAPIReady() {
+            const placeholder = document.getElementById('videoPlaceholder');
+
+            player = new YT.Player('heroVideo', {
+                videoId: 'BZIyK4j9yWc',
+                playerVars: {
+                    autoplay: 1,
+                    mute: 1,
+                    loop: 1,
+                    playlist: 'BZIyK4j9yWc',
+                    controls: 0,
+                    showinfo: 0,
+                    rel: 0,
+                    modestbranding: 1,
+                    playsinline: 1,
+                    enablejsapi: 1,
+                    origin: window.location.origin,
+                    vq: 'hd1080'  // Force highest quality
+                },
+                events: {
+                    onReady: (event) => {
+                        // Set highest quality
+                        event.target.setPlaybackQuality('hd1080');
+
+                        // Ensure video plays on mobile
+                        event.target.mute();
+                        event.target.playVideo();
+
+                        // Hide placeholder
                         if (placeholder) {
                             placeholder.classList.add('loaded');
                         }
-                    });
-
-                    // Fallback: hide placeholder after 3 seconds even if load event doesn't fire
-                    setTimeout(() => {
-                        if (placeholder) {
-                            placeholder.classList.add('loaded');
+                    },
+                    onStateChange: (event) => {
+                        // If video ends or pauses, restart it (for loop)
+                        if (event.data === YT.PlayerState.ENDED) {
+                            event.target.playVideo();
                         }
-                    }, 3000);
+                        // If video is paused (mobile might pause), try to play again
+                        if (event.data === YT.PlayerState.PAUSED) {
+                            setTimeout(() => {
+                                event.target.playVideo();
+                            }, 100);
+                        }
+                    }
                 }
             });
-        });
+
+            // Fallback: hide placeholder after 3 seconds
+            setTimeout(() => {
+                if (placeholder) {
+                    placeholder.classList.add('loaded');
+                }
+            }, 3000);
+        }
     </script>
 </body>
 
