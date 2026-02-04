@@ -15,7 +15,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary-green: #1B4332;
+            --primary-green: #244F2E;
             --accent-gold: #C5A059;
             --accent-gold-light: #D4B066;
             --bg-dark: #0F261C;
@@ -733,6 +733,42 @@
             }
         }
 
+        /* ===== SOUND TOGGLE BUTTON ===== */
+        .sound-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(197, 160, 89, 0.8);
+            transform: scale(1.1);
+            border-color: var(--accent-gold);
+        }
+
+        .sound-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .sound-toggle.unmuted {
+            background: rgba(197, 160, 89, 0.8);
+            border-color: var(--accent-gold);
+        }
+
         /* ===== CLOSING STATEMENT SPECIAL STYLING ===== */
         .closing-card {
             position: relative;
@@ -814,13 +850,66 @@
 
 <body class="min-h-screen flex flex-col items-center select-none">
 
+    <!-- ===== DECORATIVE BACKGROUND ELEMENTS ===== -->
+
+    <!-- Floating Particles -->
+    <div class="particles-container" aria-hidden="true">
+        <div class="particle" style="left: 5%; width: 6px; height: 6px; --duration: 18s; --delay: 0s; --opacity: 0.4;">
+        </div>
+        <div class="particle" style="left: 15%; width: 4px; height: 4px; --duration: 22s; --delay: 2s; --opacity: 0.3;">
+        </div>
+        <div class="particle"
+            style="left: 25%; width: 8px; height: 8px; --duration: 16s; --delay: 4s; --opacity: 0.25;"></div>
+        <div class="particle"
+            style="left: 35%; width: 5px; height: 5px; --duration: 20s; --delay: 1s; --opacity: 0.35;"></div>
+        <div class="particle" style="left: 45%; width: 7px; height: 7px; --duration: 24s; --delay: 3s; --opacity: 0.3;">
+        </div>
+        <div class="particle" style="left: 55%; width: 4px; height: 4px; --duration: 19s; --delay: 5s; --opacity: 0.4;">
+        </div>
+        <div class="particle"
+            style="left: 65%; width: 6px; height: 6px; --duration: 21s; --delay: 2.5s; --opacity: 0.35;"></div>
+        <div class="particle"
+            style="left: 75%; width: 5px; height: 5px; --duration: 17s; --delay: 4.5s; --opacity: 0.3;"></div>
+        <div class="particle"
+            style="left: 85%; width: 8px; height: 8px; --duration: 23s; --delay: 1.5s; --opacity: 0.25;"></div>
+        <div class="particle"
+            style="left: 95%; width: 4px; height: 4px; --duration: 20s; --delay: 3.5s; --opacity: 0.4;"></div>
+    </div>
+
+    <!-- Geometric Pattern Overlay -->
+    <div class="geometric-pattern" aria-hidden="true"></div>
+
+    <!-- Gradient Waves at Bottom -->
+    <div class="gradient-waves" aria-hidden="true">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <!-- Floating Decorative Shapes (Islamic/Arabic inspired) -->
+    <svg class="floating-shape" width="120" height="120" viewBox="0 0 120 120" aria-hidden="true" style="z-index: 1;">
+        <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="none" stroke="#C5A059" stroke-width="1" />
+        <polygon points="60,25 95,42 95,78 60,95 25,78 25,42" fill="none" stroke="#C5A059" stroke-width="0.5" />
+    </svg>
+    <svg class="floating-shape" width="80" height="80" viewBox="0 0 80 80" aria-hidden="true" style="z-index: 1;">
+        <circle cx="40" cy="40" r="35" fill="none" stroke="#C5A059" stroke-width="1" />
+        <circle cx="40" cy="40" r="25" fill="none" stroke="#C5A059" stroke-width="0.5" />
+        <circle cx="40" cy="40" r="15" fill="none" stroke="#C5A059" stroke-width="0.3" />
+    </svg>
+    <svg class="floating-shape" width="100" height="100" viewBox="0 0 100 100" aria-hidden="true" style="z-index: 1;">
+        <path d="M50,5 L61,38 L95,38 L68,59 L79,92 L50,71 L21,92 L32,59 L5,38 L39,38 Z" fill="none" stroke="#C5A059"
+            stroke-width="1" />
+    </svg>
+
+    <!-- ===== END DECORATIVE ELEMENTS ===== -->
+
     <div class="video-overlay"></div>
 
     <!-- Header Row: Logo + Title + Language Switcher -->
-    <header class="header-row z-10">
-        <img src="vnsafar-logo-white.jpg" alt="VIETNAM SAFAR Logo" class="header-logo shadow-lg" loading="eager"
+    <header class="header-row z-10 animate-in">
+        <img src="vnsafar-logo.png" alt="VIETNAM SAFAR Logo" class="header-logo shadow-lg glow-pulse" loading="eager"
             decoding="async">
-        <h1 id="compName" class="header-title">VIETNAM SAFAR</h1>
+        <h1 id="compName" class="header-title animated-title">VIETNAM SAFAR</h1>
         <button id="langToggle"
             class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 transition-all text-sm font-medium backdrop-blur-md">
             <i data-lucide="globe" class="w-4 h-4"></i>
@@ -829,7 +918,7 @@
     </header>
 
     <!-- Hero Background Video (Full Width - YouTube Embed) -->
-    <section class="hero-video-section z-10">
+    <section class="hero-video-section z-10 animate-in animate-in-delay-1">
         <!-- Loading Placeholder -->
         <div class="video-placeholder" id="videoPlaceholder">
             <div class="loading-spinner"></div>
@@ -839,30 +928,61 @@
             <div id="heroVideo"></div>
         </div>
         <div class="hero-video-overlay"></div>
+        <!-- Sound Toggle Button -->
+        <button id="soundToggle" class="sound-toggle" title="Toggle Sound">
+            <svg id="soundOffIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <svg id="soundOnIcon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+        </button>
     </section>
 
     <!-- Main Container -->
     <div class="w-full max-w-2xl z-10 flex flex-col items-center px-4 mt-8">
 
         <!-- Narrative Section -->
-        <div class="content-card rounded-3xl p-6 md:p-8 mb-8 text-center md:text-right w-full">
-            <p id="narrative1" class="text-white/90 leading-relaxed mb-6 text-sm md:text-base">
+        <div
+            class="content-card rounded-3xl p-6 md:p-8 mb-8 text-center md:text-right w-full shimmer animate-in animate-in-delay-2">
+            <!-- Decorative Corner Accents -->
+            <div class="corner-accent top-right">
+                <svg viewBox="0 0 60 60" fill="none">
+                    <path d="M60 0 L60 60 L0 60 Q30 60 45 45 Q60 30 60 0" fill="rgba(197, 160, 89, 0.1)" />
+                    <path d="M60 0 L60 60 L0 60" stroke="rgba(197, 160, 89, 0.3)" stroke-width="1" fill="none" />
+                </svg>
+            </div>
+            <div class="corner-accent bottom-left">
+                <svg viewBox="0 0 60 60" fill="none">
+                    <path d="M60 0 L60 60 L0 60 Q30 60 45 45 Q60 30 60 0" fill="rgba(197, 160, 89, 0.1)" />
+                    <path d="M60 0 L60 60 L0 60" stroke="rgba(197, 160, 89, 0.3)" stroke-width="1" fill="none" />
+                </svg>
+            </div>
+            <p id="narrative1" class="text-white/90 leading-relaxed mb-6 text-sm md:text-base relative z-10">
                 <!-- Text injected by JS -->
             </p>
-            <p id="narrative2" class="text-white/90 leading-relaxed text-sm md:text-base">
+            <p id="narrative2" class="text-white/90 leading-relaxed text-sm md:text-base relative z-10">
                 <!-- Text injected by JS -->
             </p>
         </div>
 
+        <!-- Decorative Section Divider -->
+        <div class="section-divider w-full animate-in animate-in-delay-3"></div>
+
         <!-- Social Links Section -->
-        <div id="linksContainer" class="w-full space-y-4 mb-12">
+        <div id="linksContainer" class="w-full space-y-4 mb-12 animate-in animate-in-delay-3">
             <!-- Social buttons injected by JS -->
         </div>
 
         <!-- What We Offer Section -->
-        <div class="w-full mb-10">
+        <div class="w-full mb-10 animate-in animate-in-delay-4">
             <h2 id="offerTitle" class="text-xl font-bold mb-6 flex items-center gap-3">
-                <i data-lucide="sparkles" class="text-[#C5A059]"></i>
+                <i data-lucide="sparkles" class="text-[#C5A059] glow-pulse"></i>
                 <span>ماذا نقدم</span>
             </h2>
             <div id="offerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -874,21 +994,26 @@
         </div>
 
 
+        <!-- Decorative Section Divider -->
+        <div class="section-divider w-full animate-in animate-in-delay-5"></div>
+
         <!-- Closing Statement -->
-        <div class="content-card rounded-3xl p-8 mb-12 text-center border-t-2 border-[#C5A059]/30 w-full">
-            <p id="closingStatement" class="text-lg md:text-xl font-medium leading-relaxed italic text-[#C5A059]">
+        <div
+            class="content-card closing-card rounded-3xl p-8 mb-12 text-center border-t-2 border-[#C5A059]/30 w-full shimmer animate-in animate-in-delay-5">
+            <p id="closingStatement"
+                class="text-lg md:text-xl font-medium leading-relaxed italic text-[#C5A059] relative z-10">
                 <!-- Text injected by JS -->
             </p>
         </div>
 
         <!-- Footer -->
-        <div class="pb-12 flex flex-col items-center gap-4 text-center">
+        <div class="pb-12 flex flex-col items-center gap-4 text-center animate-in animate-in-delay-5">
             <button id="shareBtn"
                 class="flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
                 <span id="shareLabel">مشاركة الملف الشخصي</span>
             </button>
-            <div class="h-px w-20 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+            <div class="h-px w-32 bg-gradient-to-r from-transparent via-[#C5A059]/40 to-transparent"></div>
             <p class="text-[10px] text-white/30 uppercase tracking-[0.2em]">
                 &copy; 2024 VIETNAM SAFAR | License 48-243/2023 TCDL-GP LHQT
             </p>
@@ -970,14 +1095,17 @@
             // Update Offer Grid
             const grid = document.getElementById('offerGrid');
             grid.innerHTML = '';
-            data.offers.forEach(off => {
+            data.offers.forEach((off, index) => {
                 const div = document.createElement('div');
-                div.className = "content-card p-4 rounded-2xl flex items-center gap-4 border border-white/5 shadow-sm hover:border-[#C5A059]/30 transition-all";
+                div.className = "offer-card content-card p-4 rounded-2xl flex items-center gap-4 border border-white/5 shadow-sm";
+                div.style.animationDelay = `${0.4 + (index * 0.1)}s`;
+                div.style.opacity = '0';
+                div.style.animation = `fadeInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
                 div.innerHTML = `
-                    <div class="w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center">
+                    <div class="offer-icon w-10 h-10 rounded-xl bg-[#C5A059]/20 text-[#C5A059] flex items-center justify-center">
                         <i data-lucide="${off.icon}" class="w-5 h-5"></i>
                     </div>
-                    <span class="font-medium text-sm">${off.text}</span>
+                    <span class="font-medium text-sm relative z-10">${off.text}</span>
                 `;
                 grid.appendChild(div);
             });
@@ -985,19 +1113,23 @@
             // Update Social Links
             const linksContainer = document.getElementById('linksContainer');
             linksContainer.innerHTML = '';
-            socialLinks.forEach(link => {
+            socialLinks.forEach((link, index) => {
                 const a = document.createElement('a');
                 a.href = link.url;
                 a.target = "_blank";
+                a.rel = "noopener noreferrer";
                 a.className = "btn-link group flex items-center justify-between w-full p-4 rounded-2xl bg-white/10 border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-[1.02] border-l-4 border-l-[#C5A059]";
+                a.style.animationDelay = `${0.3 + (index * 0.08)}s`;
+                a.style.opacity = '0';
+                a.style.animation = `fadeInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
                 a.innerHTML = `
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white">
+                        <div class="icon-wrapper w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 text-white">
                             <i data-lucide="${link.icon}" class="w-5 h-5"></i>
                         </div>
                         <span class="font-semibold text-lg text-white">${link.title[currentLang]}</span>
                     </div>
-                    <i data-lucide="chevron-left" class="w-4 h-4 text-white/20 group-hover:text-white transition-colors ${isRtl ? '' : 'rotate-180'}"></i>
+                    <i data-lucide="chevron-left" class="w-4 h-4 text-white/20 group-hover:text-[#C5A059] transition-colors ${isRtl ? '' : 'rotate-180'}"></i>
                 `;
                 linksContainer.appendChild(a);
             });
@@ -1091,6 +1223,30 @@
                 }
             }, 3000);
         }
+
+        // Sound Toggle Functionality
+        let isMuted = true;
+        const soundToggle = document.getElementById('soundToggle');
+        const soundOffIcon = document.getElementById('soundOffIcon');
+        const soundOnIcon = document.getElementById('soundOnIcon');
+
+        soundToggle.addEventListener('click', () => {
+            if (player && player.isMuted) {
+                if (isMuted) {
+                    player.unMute();
+                    isMuted = false;
+                    soundToggle.classList.add('unmuted');
+                    soundOffIcon.style.display = 'none';
+                    soundOnIcon.style.display = 'block';
+                } else {
+                    player.mute();
+                    isMuted = true;
+                    soundToggle.classList.remove('unmuted');
+                    soundOffIcon.style.display = 'block';
+                    soundOnIcon.style.display = 'none';
+                }
+            }
+        });
     </script>
 </body>
 
