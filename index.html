@@ -725,14 +725,40 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary-green) 100%);
+            background: url('ninhbinh.jpeg') center center / cover no-repeat;
             z-index: 0;
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(15, 38, 28, 0.3) 0%,
+                    rgba(15, 38, 28, 0.2) 50%,
+                    rgba(15, 38, 28, 0.5) 100%);
+            z-index: 1;
+        }
+
+        .video-placeholder .loading-spinner {
+            position: relative;
+            z-index: 2;
         }
 
         .video-placeholder.loaded {
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* Keep showing thumbnail when video fails */
+        .video-placeholder.video-fallback {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-placeholder.video-fallback .loading-spinner {
+            display: none;
         }
 
         .loading-spinner {
@@ -1029,8 +1055,8 @@
             loading="eager" decoding="async">
         <h1 id="compName" class="header-title animated-title">VIETNAM SAFAR</h1>
         <button id="langToggle"
-            class="flex items-center justify-center gap-3 px-8 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 transition-all text-base font-medium backdrop-blur-md">
-            <i data-lucide="globe" class="w-5 h-5 flex-shrink-0"></i>
+            class="flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 transition-all text-sm font-medium backdrop-blur-md">
+            <i data-lucide="globe" class="w-4 h-4 flex-shrink-0 hidden md:block"></i>
             <span id="langLabel">English</span>
         </button>
     </header>
@@ -1410,12 +1436,22 @@
                     playOverlay.classList.add('visible');
                     playOverlay.classList.remove('hidden');
                 }
+                // Show thumbnail background when video can't play
+                if (placeholder) {
+                    placeholder.classList.add('video-fallback');
+                    placeholder.classList.remove('loaded');
+                }
             }
 
             function hidePlayOverlay() {
                 if (playOverlay) {
                     playOverlay.classList.remove('visible');
                     playOverlay.classList.add('hidden');
+                }
+                // Hide thumbnail when video starts playing
+                if (placeholder) {
+                    placeholder.classList.remove('video-fallback');
+                    placeholder.classList.add('loaded');
                 }
             }
 
