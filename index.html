@@ -15,7 +15,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary-green: #244F2E;
+            --primary-green: #1B4332;
             --accent-gold: #C5A059;
             --accent-gold-light: #D4B066;
             --bg-dark: #0F261C;
@@ -1069,7 +1069,7 @@
             { id: 'youtube', icon: 'youtube', url: 'https://youtube.com/@vietnamsafar', title: { en: 'YouTube', ar: 'يوتيوب' } },
             { id: 'whatsapp', icon: 'message-circle', url: 'https://wa.me/966000000000', title: { en: 'WhatsApp', ar: 'واتساب' } },
             { id: 'instagram', icon: 'instagram', url: 'https://www.instagram.com/vietnam_safar/', title: { en: 'Instagram', ar: 'إنستغرام' } },
-            { id: 'tiktok', icon: 'music', url: 'https://tiktok.com/@vietnamsafar', title: { en: 'TikTok', ar: 'تيك توك' } },
+            { id: 'tiktok', icon: 'music', url: 'https://www.tiktok.com/@vietnam.safar', title: { en: 'TikTok', ar: 'تيك توك' } },
             { id: 'threads', icon: 'at-sign', url: 'https://www.threads.com/@vietnam_safar?igshid=NTc4MTIwNjQ2YQ==', title: { en: 'Threads', ar: 'ثريدز' } }
         ];
 
@@ -1231,9 +1231,10 @@
         const soundOnIcon = document.getElementById('soundOnIcon');
 
         soundToggle.addEventListener('click', () => {
-            if (player && player.isMuted) {
+            if (player && typeof player.unMute === 'function') {
                 if (isMuted) {
                     player.unMute();
+                    player.setVolume(100);
                     isMuted = false;
                     soundToggle.classList.add('unmuted');
                     soundOffIcon.style.display = 'none';
